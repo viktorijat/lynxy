@@ -5,7 +5,7 @@ import CompetitionItem from './CompetitionItem';
 class CompetitionsList extends Component {
     constructor(props) {
         super(props);
-        console.log("CompetitionsList page loaded")
+        console.log("CompetitionsList page loaded");
         console.log(props);
         this.loadCompetitions = this.loadCompetitions.bind(this);
     }
@@ -22,12 +22,12 @@ class CompetitionsList extends Component {
 
                 this.competitionsList = response;
 
-                this.setState({ state: this.state });
+                this.setState({state: this.state});
 
             }).catch(error => {
-            this.setState({
-                loading: false
-            });
+            // this.setState({
+            //     loading: false
+            // });
         });
     }
 
@@ -37,14 +37,14 @@ class CompetitionsList extends Component {
 
     render() {
 
-        console.log("render")
+        console.log("render");
 
         const competitionsList = this.competitionsList;
 
         const fillTable = competitionsList => {
 
-            console.log("list")
-            console.log(competitionsList)
+            console.log("list");
+            console.log(competitionsList);
 
             if (competitionsList === undefined) {
                 return (
@@ -59,17 +59,9 @@ class CompetitionsList extends Component {
 
                 return (
                     <React.Fragment>
-                        <table className="table table-striped thread-light">
-                            <thead>
-                            <tr className="row thead-light">
-                                <th className="col">ID</th>
-                                <th className="col">Name</th>
-                                <th className="col"></th>
-                                <th className="col"></th>
-                            </tr>
+                        <div className="table table-striped thread-light wrapper">
                             {competitionsMapped}
-                            </thead>
-                        </table>
+                        </div>
                     </React.Fragment>
                 );
             }
