@@ -1,5 +1,7 @@
 package com.example.springsocial.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,6 +26,7 @@ public class StepsInCompetition {
     private User walker;
 
     @ManyToOne(targetEntity = Competition.class)
+    @JsonIgnore
     private Competition competition;
 
     public Long getSteps_id() {
