@@ -4,12 +4,20 @@ import com.example.springsocial.model.Competition;
 import com.example.springsocial.model.User;
 import com.example.springsocial.repository.CompetitionRepository;
 import com.example.springsocial.repository.UserRepository;
+
+import java.time.Instant;
+import java.time.ZonedDateTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+
+import com.example.springsocial.security.CurrentUser;
+import com.example.springsocial.security.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,17 +51,23 @@ public class CompetitionController {
     }
 
     @PostMapping
-    public ResponseEntity<Competition> createCompetition(@RequestBody Competition competition) {
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<Competition> createCompetition(@RequestBody Competition competition,
+                                                         @CurrentUser UserPrincipal userPrincipal) {
         Competition c = new Competition();
 
-        if (competition.getCreator() != null) {
-            User user = userRepository.findById(competition.getCreator().getUser_id()).orElse(null);
-            if (user != null) {
-                c.setCreator(user);
-            }
+        Optional<User> userOptional = userRepository.findById(userPrincipal.getId());
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            c.setCreator(user);
+            participateInCompetition(user,c);
         }
         c.setName(competition.getName());
-        c.setStartDate(competition.getStartDate());
+        if (competition.getStartDate() == null) {
+            c.setStartDate(ZonedDateTime.now());
+        } else {
+            c.setStartDate(competition.getStartDate());
+        }
         c.setEndDate(competition.getEndDate());
         c.setPayin(competition.getPayin());
         Competition saved = competitionRepository.saveAndFlush(c);
@@ -94,25 +108,30 @@ public class CompetitionController {
     }
 
     @PostMapping("/{competitionId}")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> joinCompetition(@PathVariable Long competitionId,
-                                             @RequestBody User userId) {
+                                             @CurrentUser UserPrincipal userPrincipal) {
 
-        User user = userRepository.findById(userId.getUser_id()).orElse(null);
+        User user = userRepository.findById(userPrincipal.getId()).orElse(null);
         Optional<Competition> c = competitionRepository.findById(competitionId);
         if (user == null || !c.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         Competition competition = c.get();
+        participateInCompetition(user, competition);
+
+        competitionRepository.saveAndFlush(competition);
+        userRepository.saveAndFlush(user);
+        return new ResponseEntity<Competition>(HttpStatus.OK);
+    }
+
+    private void participateInCompetition(User user, Competition competition) {
         Set<User> participants = competition.getParticipants();
+        participants = participants != null ? participants : new HashSet<>();
         participants.add(user);
         competition.setParticipants(participants);
         Set<Competition> competitions = user.getCompetitions();
         competitions.add(competition);
         user.setCompetitions(competitions);
-        System.out.println("competitionId=" + competitionId);
-        System.out.println("userId=" + user);
-        competitionRepository.saveAndFlush(competition);
-        userRepository.saveAndFlush(user);
-        return new ResponseEntity<Competition>(HttpStatus.OK);
     }
 }

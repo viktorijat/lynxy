@@ -1,7 +1,27 @@
 import React, {Component} from "react";
 import './CompetitionItem.css';
+import {joinCompetition} from '../util/APIUtils';
+import {Link} from 'react-router-dom';
 
 class CompetitionItem extends Component {
+
+    handleJoinClick(e, id) {
+        e.preventDefault();
+        console.log('The link was clicked.' + id);
+        joinCompetition(id)
+            .then(response => {
+                console.log("Joined competition");
+                console.log(response);
+
+                this.setState({state: this.state});
+
+            })
+            .catch(error => {
+                this.setState({
+                    loading: false
+                });
+            });
+    }
 
     render() {
         const {item} = this.props;
@@ -9,22 +29,15 @@ class CompetitionItem extends Component {
         console.log("ITEM: " + item);
 
         return (
-
-            // <div>
-            //     {item.name}
-            // </div>
-
-
             <div className="wrapper">
 
                 <div className="card radius shadowDepth1">
-                    {/*<div className="card__image border-tlr-radius">*/}
-                        {/*<img src="http://lorempixel.com/400/200/sports/" alt="image" className="border-tlr-radius" />*/}
-                    {/*</div>*/}
-
                     <div className="card__content card__padding">
                         <div className="card__share">
-                            <a id="share" className="share-icon" href="#">Join</a>
+                            <a href="#" id="share" className="share-icon"
+                               onClick={(e) => this.handleJoinClick(e, item.competition_id)}>Join</a>
+                            <Link id="share1" className="share-icon"
+                                  to={{pathname: "/competition/" + item.competition_id}}>View</Link>
                         </div>
 
                         <div className="card__meta">
@@ -33,26 +46,26 @@ class CompetitionItem extends Component {
                         </div>
 
                         <article className="card__article">
-                            <h2><a href="#"></a></h2>
+                            <h2><a href="#"/></h2>
 
                             <div className="participants card__author">
                                 <p>Participants: </p>
                                 <div>
-                                    <img src="http://lorempixel.com/40/40/sports/" alt="user" />
+                                    <img src="http://lorempixel.com/40/40/sports/" alt="user"/>
                                     <div className="card__author-content">
                                         <a href="#">John Doe</a>
                                     </div>
                                 </div>
 
                                 <div>
-                                    <img src="http://lorempixel.com/40/40/sports/" alt="user" />
+                                    <img src="http://lorempixel.com/40/40/sports/" alt="user"/>
                                     <div className="card__author-content">
                                         <a href="#">John Doe</a>
                                     </div>
                                 </div>
 
                                 <div>
-                                    <img src="http://lorempixel.com/40/40/sports/" alt="user" />
+                                    <img src="http://lorempixel.com/40/40/sports/" alt="user"/>
                                     <div className="card__author-content">
                                         <a href="#">John Doe</a>
                                     </div>
@@ -65,10 +78,10 @@ class CompetitionItem extends Component {
 
                     <div className="card__action">
                         <div className="card__author">
-                            <img src="http://lorempixel.com/40/40/sports/" alt="user" />
-                                <div className="card__author-content">
-                                    Created By <a href="#">John Doe</a>
-                                </div>
+                            <img src="http://lorempixel.com/40/40/sports/" alt="user"/>
+                            <div className="card__author-content">
+                                Created By <a href="#">John Doe</a>
+                            </div>
                         </div>
                     </div>
                 </div>

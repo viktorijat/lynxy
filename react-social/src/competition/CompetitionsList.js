@@ -60,13 +60,7 @@ class CompetitionsList extends Component {
                 return (
                     <React.Fragment>
                         <div className="table table-striped thread-light wrapper">
-                            {/*<thead>*/}
-                            {/*<tr className="row thead-light">*/}
-                            {/*<th className="col">ID</th>*/}
-                            {/*<th className="col">Name</th>*/}
-                            {/*</tr>*/}
                             {competitionsMapped}
-                            {/*</thead>*/}
                         </div>
                     </React.Fragment>
                 );
@@ -77,7 +71,7 @@ class CompetitionsList extends Component {
 
         return (
             <div>
-                <h2>List of your competitions</h2>
+                <h2>List of competitions</h2>
                 {tableContent}
             </div>
         );
