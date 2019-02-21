@@ -41,3 +41,7 @@
     color: #fff;
     font-size: 3em;
 }
+
+.word-wrap {
+    word-wrap: break-word;
+}
