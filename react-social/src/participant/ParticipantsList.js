@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {getCompetition} from '../util/APIUtils';
+import {getCompetition, getParticipantsListWithResults} from '../util/APIUtils';
 import ParticipantItem from './ParticipantItem';
 
 class ParticipantsList extends Component {
@@ -65,31 +65,6 @@ class ParticipantsList extends Component {
                                                 <p>Participants: </p>
                                                 <h2><a href="#"/></h2>
                                                 {participantsMapped}
-
-                                                <div>
-                                                    <img
-                                                        src="http://lorempixel.com/output/people-q-c-40-40-9.jpg"
-                                                        alt="user"/>
-                                                    <div className="card__author-content">
-                                                        <a href="#">Misha Sorokin</a>
-                                                    </div>
-                                                </div>
-
-                                                <div>
-                                                    <img src="http://lorempixel.com/output/people-q-c-40-40-1.jpg"
-                                                         alt="user"/>
-                                                    <div className="card__author-content">
-                                                        <a href="#">Sergei Kotov</a>
-                                                    </div>
-                                                </div>
-
-                                                <div>
-                                                    <img src="http://lorempixel.com/output/people-q-c-40-40-3.jpg"
-                                                         alt="user"/>
-                                                    <div className="card__author-content">
-                                                        <a href="#">Marcin Wrzos</a>
-                                                    </div>
-                                                </div>
                                             </div>
                                         </article>
                                     </div>
@@ -101,21 +76,7 @@ class ParticipantsList extends Component {
             }
         };
 
-        let participantsList = undefined;
-        if (this.competition) {
-            participantsList = this.competition.participants;
-
-            var participantResults = this.competition.userSteps.reduce(function (map, obj) {
-                map[obj.walker.user_id] = obj.amount;
-                return map;
-            }, {});
-
-            participantsList.forEach(function (part, index) {
-                part.amount = participantResults[part.user_id];
-                this[index] = part;
-            }, participantsList);
-        }
-
+        let participantsList = getParticipantsListWithResults(this.competition);
         let tableContent = fillTable(participantsList);
 
         return (

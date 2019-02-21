@@ -104,3 +104,48 @@ export function signup(signupRequest) {
         body: JSON.stringify(signupRequest)
     });
 }
+
+export function getParticipantsListWithResults(competition) {
+    let participantsList = undefined;
+    if (competition) {
+        participantsList = competition.participants;
+
+        var participantResults = competition.userSteps.reduce(function (map, obj) {
+            map[obj.walker.user_id] = obj.amount;
+            return map;
+        }, {});
+
+        participantsList.forEach(function (part, index) {
+            part.amount = participantResults[part.user_id];
+            this[index] = part;
+        }, participantsList);
+    }
+    return participantsList;
+}
+
+export function getCurrentUserScore(competition, currentUser) {
+    let currentUserScore = 0;
+    if (competition) {
+        var participantResults = competition.userSteps.reduce(function (map, obj) {
+            map[obj.walker.user_id] = obj.amount;
+            return map;
+        }, {});
+
+        currentUserScore = participantResults[currentUser.user_id];
+    }
+
+    return currentUserScore;
+}
+
+export function hasUserJoined(competition, currentUser) {
+    let result = false;
+    if (competition) {
+        competition.participants.forEach(function (part, index) {
+            if (part.user_id == currentUser.user_id) {
+                result = true;
+            }
+        });
+    }
+
+    return result;
+}

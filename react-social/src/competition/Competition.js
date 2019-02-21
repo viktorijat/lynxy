@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import ParticipantsList from "../participant/ParticipantsList";
-import {getCompetition, submitCompetitionUserData} from "../util/APIUtils";
+import {getCompetition, submitCompetitionUserData, getCurrentUserScore, hasUserJoined} from "../util/APIUtils";
 
 class Competition extends Component {
 
@@ -56,20 +56,8 @@ class Competition extends Component {
 
     render() {
 
-        let alreadySubmitted = false;
-        let currentUserScore = 0;
-
-        if (this.competition) {
-            var participantResults = this.competition.userSteps.reduce(function (map, obj) {
-                map[obj.walker.user_id] = obj.amount;
-                return map;
-            }, {});
-
-            let participantResult = participantResults[this.props.currentUser.user_id];
-            alreadySubmitted = (participantResult === undefined);
-            currentUserScore = participantResult;
-
-        }
+        let currentUserScore = getCurrentUserScore(this.competition, this.props.currentUser);
+        let alreadySubmitted = (currentUserScore === undefined);
 
         return (
             <div className="profile-container">
@@ -80,7 +68,7 @@ class Competition extends Component {
                                 <h2>{this.competition.name}</h2>
                                 <div className="card__action">
                                     <div className="card__author">
-                                        <img src="http://lorempixel.com/40/40/sports/" alt="user"/>
+                                        <img id="participant_image" src={this.competition.creator == null ? ("http://lorempixel.com/40/40/sports/") : (this.competition.creator.imageUrl)} alt="user"/>
                                         <div className="card__author-content">
                                             Created By <a href="#">
                                             {this.competition.creator == null ? "No creator" : this.competition.creator.name}</a>
@@ -89,14 +77,16 @@ class Competition extends Component {
                                             Winner <a href="#">
                                             {this.competition.winner == null ? "Nobody won yet" : this.competition.winner.name + " (" + this.competition.maxSteps + ")"}</a>
                                         </div>
-                                        <div className="card__author-content">
-                                        {
-                                            alreadySubmitted ?
-                                                (<span> | <a href="#" id="submit"
-                                                    onClick={(e) => this.handleSubmitClick(e, this.competition.competition_id)}>Submit your score</a></span>) :
-                                                (<span>Your score <a href="#">{currentUserScore}</a></span>)
+                                        {hasUserJoined(this.competition, this.props.currentUser) ?
+                                            (<div className="card__author-content">
+                                                {
+                                                    alreadySubmitted ?
+                                                        (<span> | <a href="#" id="submit"
+                                                                     onClick={(e) => this.handleSubmitClick(e, this.competition.competition_id)}>Submit your score</a></span>) :
+                                                        (<span>Your score <a href="#">{currentUserScore}</a></span>)
+                                                }
+                                            </div>) : (<br/>)
                                         }
-                                        </div>
                                     </div>
                                 </div>
                             </div>

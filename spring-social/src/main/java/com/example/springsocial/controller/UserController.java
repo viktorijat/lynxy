@@ -12,6 +12,7 @@ import com.example.springsocial.security.UserPrincipal;
 import com.example.springsocial.service.GoogleFitnessService;
 import com.google.api.services.fitness.model.AggregateBucket;
 import com.google.api.services.fitness.model.AggregateResponse;
+
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -88,19 +89,18 @@ public class UserController {
                         competition.getStartDate(),
                         competition.getEndDate());
 
-        if (aggregatedStepsForCurrentUser == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        List<AggregateBucket> buckets = aggregatedStepsForCurrentUser.getBucket();
         long totalAmountOfSteps = 0;
-        if (buckets != null) {
-            totalAmountOfSteps = buckets
-                    .stream()
-                    .flatMap(bucket -> bucket.getDataset().stream())
-                    .flatMap(dataset -> dataset.getPoint().stream())
-                    .flatMap(point -> point.getValue().stream())
-                    .mapToLong(Value::getIntVal)
-                    .sum();
+        if (aggregatedStepsForCurrentUser != null) {
+            List<AggregateBucket> buckets = aggregatedStepsForCurrentUser.getBucket();
+            if (buckets != null) {
+                totalAmountOfSteps = buckets
+                        .stream()
+                        .flatMap(bucket -> bucket.getDataset().stream())
+                        .flatMap(dataset -> dataset.getPoint().stream())
+                        .flatMap(point -> point.getValue().stream())
+                        .mapToLong(Value::getIntVal)
+                        .sum();
+            }
         }
         stepsInCompetition.setAmount(totalAmountOfSteps);
         long currentMaxInCompetition = competition.getMaxSteps() != null ? competition.getMaxSteps() : 0L;

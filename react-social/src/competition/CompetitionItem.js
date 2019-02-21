@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import './CompetitionItem.css';
-import {joinCompetition} from '../util/APIUtils';
+import {joinCompetition, hasUserJoined} from '../util/APIUtils';
 import {Link} from 'react-router-dom';
 
 class CompetitionItem extends Component {
@@ -24,24 +24,24 @@ class CompetitionItem extends Component {
     }
 
     render() {
-        const {item} = this.props;
-
-        console.log("ITEM: " + item);
+        const item = this.props.item;
+        const currentUser = this.props.currentUser;
 
         return (
             <div className="wrapper">
 
                 <div className="card radius shadowDepth1">
                     <div className="card__content card__padding">
-                        <div className="card__share">
-                            <a href="#" id="share" className="share-icon"
-                               onClick={(e) => this.handleJoinClick(e, item.competition_id)}>Join</a>
-                            <Link id="share1" className="share-icon"
-                                  to={{pathname: "/competition/" + item.competition_id}}>View</Link>
-                        </div>
+                        {hasUserJoined(item, currentUser) ? (<br/>) :
+                            (
+                                <div className="card__share">
+                                    <a href="#" id="share" className="share-icon"
+                                       onClick={(e) => this.handleJoinClick(e, item.competition_id)}>Join</a>
+                                </div>
+                            )}
 
                         <div className="card__meta">
-                            <a href="#">{item.name}</a>
+                            <Link to={{pathname: "/competition/" + item.competition_id}}>{item.name}</Link>
                             <time className="time">Starting: {item.startDate}</time>
                             <time className="time">Ending: {item.endDate}</time>
                         </div>
@@ -53,7 +53,7 @@ class CompetitionItem extends Component {
 
                     <div className="card__action">
                         <div className="card__author">
-                            <img src="http://lorempixel.com/40/40/sports/" alt="user"/>
+                            <img id="participant_image" src={item.creator == null ? ("http://lorempixel.com/40/40/sports/") : (item.creator.imageUrl)} alt="user"/>
                             <div className="card__author-content">
                                 Created By <a href="#">{item.creator == null ? "No creator" : item.creator.name}</a>
                             </div>
