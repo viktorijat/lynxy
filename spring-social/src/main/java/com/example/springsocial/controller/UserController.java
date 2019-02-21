@@ -5,12 +5,18 @@ import com.example.springsocial.model.User;
 import com.example.springsocial.repository.UserRepository;
 import com.example.springsocial.security.CurrentUser;
 import com.example.springsocial.security.UserPrincipal;
+import com.example.springsocial.service.GoogleFitnessService;
+import com.google.api.services.fitness.model.AggregateResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 @RestController
 public class UserController {
@@ -19,6 +25,8 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private GoogleFitnessService googleFitnessService;
 
     @GetMapping("/user/me")
     @PreAuthorize("hasRole('USER')")
@@ -33,6 +41,9 @@ public class UserController {
 
     @GetMapping("/user/me/steps")
     @PreAuthorize("hasRole('USER')")
-    public void getCurrentUserSteps(@CurrentUser UserPrincipal userPrincipal) {
+    public AggregateResponse getCurrentUserSteps(@CurrentUser UserPrincipal userPrincipal) {
+        return googleFitnessService.getAggregatedStepsForCurrentUser(userPrincipal.getAccessToken(),
+                ZonedDateTime.of(LocalDateTime.of(2019, 2, 18, 0, 0),
+                        ZoneId.of("UTC")), ZonedDateTime.now(ZoneId.of("UTC")));
     }
 }
