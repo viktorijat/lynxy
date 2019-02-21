@@ -55,15 +55,34 @@ class Competition extends Component {
     }
 
     render() {
+
+        let alreadySubmitted = false;
+        let currentUserScore = 0;
+
+        if (this.competition) {
+            var participantResults = this.competition.userSteps.reduce(function (map, obj) {
+                map[obj.walker.user_id] = obj.amount;
+                return map;
+            }, {});
+
+            let participantResult = participantResults[this.props.currentUser.user_id];
+            alreadySubmitted = (participantResult === undefined);
+            currentUserScore = participantResult;
+
+        }
+
         return (
             <div className="profile-container">
                 <div className="container">
                     <div className="profile-name">
                         {this.competition ? (<h2>{this.competition.name}</h2>) : (<br/>)}
                         <div>
-                            <a href="#" id="submit"
-                               onClick={(e) => this.handleSubmitClick(e, this.competition.competition_id)}>Submit</a>
-
+                            {
+                                alreadySubmitted ?
+                                    (<a href="#" id="submit"
+                                        onClick={(e) => this.handleSubmitClick(e, this.competition.competition_id)}>Submit</a>) :
+                                    (<strong>Your score: {currentUserScore}</strong>)
+                            }
                         </div>
                         <ParticipantsList competitionId={this.props.match.params.competitionId}/>
                     </div>
