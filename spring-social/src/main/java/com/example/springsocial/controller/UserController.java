@@ -7,10 +7,15 @@ import com.example.springsocial.repository.CompetitionRepository;
 import com.example.springsocial.repository.UserRepository;
 import com.example.springsocial.security.CurrentUser;
 import com.example.springsocial.security.UserPrincipal;
+import com.example.springsocial.service.GoogleFitnessService;
+import com.google.api.services.fitness.model.AggregateResponse;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,10 +27,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UserController {
 
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private GoogleFitnessService googleFitnessService;
 
     @Autowired
     private CompetitionRepository competitionRepository;
@@ -33,8 +40,20 @@ public class UserController {
     @GetMapping("/user/me")
     @PreAuthorize("hasRole('USER')")
     public User getCurrentUser(@CurrentUser UserPrincipal userPrincipal) {
-        return userRepository.findById(userPrincipal.getId())
+
+        String accessToken = userPrincipal.getAccessToken();
+        User user = userRepository.findById(userPrincipal.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getId()));
+        user.setAccessToken(accessToken);
+        return user;
+    }
+
+    @GetMapping("/user/me/steps")
+    @PreAuthorize("hasRole('USER')")
+    public AggregateResponse getCurrentUserSteps(@CurrentUser UserPrincipal userPrincipal) {
+        return googleFitnessService.getAggregatedStepsForCurrentUser(userPrincipal.getAccessToken(),
+                ZonedDateTime.of(LocalDateTime.of(2019, 2, 18, 0, 0),
+                        ZoneId.of("UTC")), ZonedDateTime.now(ZoneId.of("UTC")));
     }
 
     @GetMapping("/user/competitions/{status}")

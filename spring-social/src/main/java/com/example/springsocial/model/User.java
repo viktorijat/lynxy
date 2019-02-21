@@ -1,10 +1,22 @@
 package com.example.springsocial.model;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import java.util.Set;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.HashSet;
-import javax.persistence.*;
+import java.util.Set;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
@@ -36,14 +48,17 @@ public class User {
     @Enumerated(EnumType.STRING)
     private AuthProvider provider;
 
+    @Transient
+    private String accessToken;
+
     private String providerId;
 
-    @ManyToMany(cascade = { CascadeType.ALL })
+    @ManyToMany(cascade = {CascadeType.ALL})
     @JsonIgnore
     @JoinTable(
             name = "User_Competition",
-            joinColumns = { @JoinColumn(name = "user_id") },
-            inverseJoinColumns = { @JoinColumn(name = "competition_id") }
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "competition_id")}
     )
     private Set<Competition> competitions = new HashSet<>();
 
@@ -119,6 +134,7 @@ public class User {
         this.providerId = providerId;
     }
 
+
     @Override
     public String toString() {
         return "User{" +
@@ -126,5 +142,13 @@ public class User {
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 '}';
+    }
+
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
     }
 }

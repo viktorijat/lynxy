@@ -24,6 +24,7 @@ spring:
               scope:
                 - email
                 - profile
+                - https://www.googleapis.com/auth/fitness.activity.read
             facebook:
               clientId: 121189305185277
               clientSecret: 42ffe5aa7379e8326387e0fe16f34132

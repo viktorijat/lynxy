@@ -31,6 +31,10 @@ class Profile extends Component {
                             <h2>JWT token</h2>
                             <p className="word-wrap">{localStorage.getItem(ACCESS_TOKEN)}</p>
                         </div>
+                        <div>
+                            <h2>Google API token</h2>
+                            <p className="word-wrap">{this.props.currentUser.accessToken}</p>
+                        </div>
                     </div>
                 </div>    
             </div>
