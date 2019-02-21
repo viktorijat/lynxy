@@ -29,7 +29,7 @@ class Profile extends Component {
                         </div>
                         <div>
                             <h2>JWT token</h2>
-                            <p style="word-wrap: break-word;">{localStorage.getItem(ACCESS_TOKEN)}</p>
+                            <p className="word-wrap">{localStorage.getItem(ACCESS_TOKEN)}</p>
                         </div>
                     </div>
                 </div>    
