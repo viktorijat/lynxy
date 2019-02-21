@@ -1,6 +1,6 @@
 spring:
     datasource:
-        url: jdbc:mysql://localhost:3306/spring_social?useSSL=false&allowPublicKeyRetrieval=true
+        url: jdbc:h2:./innovation_steps
         username: toshevav
         password: password
 
