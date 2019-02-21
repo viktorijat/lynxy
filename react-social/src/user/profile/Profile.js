@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './Profile.css';
+import { ACCESS_TOKEN } from '../../constants';
 
 class Profile extends Component {
     constructor(props) {
@@ -25,6 +26,10 @@ class Profile extends Component {
                         <div className="profile-name">
                            <h2>{this.props.currentUser.name}</h2>
                            <p className="profile-email">{this.props.currentUser.email}</p>
+                        </div>
+                        <div>
+                            <h2>JWT token</h2>
+                            <p className="word-wrap">{localStorage.getItem(ACCESS_TOKEN)}</p>
                         </div>
                     </div>
                 </div>    
