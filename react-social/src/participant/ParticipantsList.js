@@ -39,8 +39,8 @@ class ParticipantsList extends Component {
 
         const fillTable = participantsList => {
 
-            console.log("list")
-            console.log(participantsList)
+            console.log("list");
+            console.log(participantsList);
 
             if (participantsList === undefined) {
                 return (
@@ -55,15 +55,10 @@ class ParticipantsList extends Component {
 
                 return (
                     <React.Fragment>
-                        <table className="table table-striped thread-light">
-                            <thead>
-                            <tr className="row thead-light">
-                                <th className="col">ID</th>
-                                <th className="col">Name</th>
-                            </tr>
+
+                        <div className="table table-striped thread-light wrapper">
                             {participantsMapped}
-                            </thead>
-                        </table>
+                        </div>
                     </React.Fragment>
                 );
             }
