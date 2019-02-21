@@ -31,7 +31,7 @@ class Profile extends Component {
                            <p className="profile-email">{this.props.currentUser.email}</p>
                         </div>
                         <div>
-                            <CompetitionsList/>
+                            <CompetitionsList currentUser={this.props.currentUser}/>
                         </div>
                         <div>
                             <h2>JWT token</h2>

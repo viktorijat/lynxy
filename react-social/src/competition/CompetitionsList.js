@@ -50,7 +50,7 @@ class CompetitionsList extends Component {
                 );
             } else {
                 const competitionsMapped = competitionsList.map(item => (
-                    <CompetitionItem key={item.competition_id} item={item}/>
+                    <CompetitionItem key={item.competition_id} item={item} currentUser={this.props.currentUser}/>
                 ));
 
                 return (
