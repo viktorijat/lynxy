@@ -39,8 +39,8 @@ class ParticipantsList extends Component {
 
         const fillTable = participantsList => {
 
-            console.log("list")
-            console.log(participantsList)
+            console.log("participantsList");
+            console.log(participantsList);
 
             if (participantsList === undefined) {
                 return (
@@ -50,8 +50,9 @@ class ParticipantsList extends Component {
                 );
             } else {
                 const participantsMapped = participantsList.map(item => (
-                    <ParticipantItem key={item.user_id} item={item}/>
-                ));
+                        <ParticipantItem key={item.user_id} item={item}/>
+                    )
+                );
 
                 return (
                     <React.Fragment>
@@ -69,7 +70,21 @@ class ParticipantsList extends Component {
             }
         };
 
-        const participantsList = this.competition ? this.competition.participants : undefined;
+        let participantsList = undefined;
+        if (this.competition) {
+            participantsList = this.competition.participants;
+
+            var participantResults = this.competition.userSteps.reduce(function(map, obj) {
+                map[obj.walker.user_id] = obj.amount;
+                return map;
+            }, {});
+
+            participantsList.forEach(function(part, index) {
+                part.amount = participantResults[part.user_id];
+                this[index] = part;
+            }, participantsList);
+        }
+
         let tableContent = fillTable(participantsList);
 
         return (
