@@ -38,6 +38,8 @@ public class Competition {
 
     private Integer payin;
 
+    private Long maxSteps;
+
     public Long getCompetition_id() {
         return competition_id;
     }
@@ -100,5 +102,13 @@ public class Competition {
 
     public void setPayin(Integer payin) {
         this.payin = payin;
+    }
+
+    public Long getMaxSteps() {
+        return maxSteps;
+    }
+
+    public void setMaxSteps(Long maxSteps) {
+        this.maxSteps = maxSteps;
     }
 }
