@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import './Profile.css';
 import {ACCESS_TOKEN} from '../../constants';
 import CompetitionsList from '../../competition/CompetitionsList'
-import {getCurrentUserCompetitions} from "../../util/APIUtils";
 
 class Profile extends Component {
     constructor(props) {

@@ -45,6 +45,28 @@ export function getCurrentUserCompetitions() {
     });
 }
 
+export function joinCompetition(id) {
+    if(!localStorage.getItem(ACCESS_TOKEN)) {
+        return Promise.reject("No access token set.");
+    }
+
+    return request({
+        url: API_BASE_URL + "/competition/"+id,
+        method: 'POST'
+    });
+}
+
+export function getCompetition(id) {
+    if(!localStorage.getItem(ACCESS_TOKEN)) {
+        return Promise.reject("No access token set.");
+    }
+
+    return request({
+        url: API_BASE_URL + "/competition/"+id,
+        method: 'GET'
+    });
+}
+
 export function getCurrentUserSteps() {
     if(!localStorage.getItem(ACCESS_TOKEN)) {
         return Promise.reject("No access token set.");

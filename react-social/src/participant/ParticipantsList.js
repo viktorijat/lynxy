@@ -1,28 +1,28 @@
 import React, {Component} from 'react';
-import {getCurrentUserCompetitions} from '../util/APIUtils';
-import CompetitionItem from './CompetitionItem';
+import {getCompetition} from '../util/APIUtils';
+import ParticipantItem from './ParticipantItem';
 
-class CompetitionsList extends Component {
+class ParticipantsList extends Component {
     constructor(props) {
         super(props);
-        console.log("CompetitionsList page loaded")
+        console.log("ParticipantsList page loaded")
         console.log(props);
-        this.loadCompetitions = this.loadCompetitions.bind(this);
+        this.loadCompetition = this.loadCompetition.bind(this);
     }
 
-    loadCompetitions() {
+    loadCompetition() {
         this.setState({
             loading: true
         });
 
-        getCurrentUserCompetitions()
+        getCompetition(this.props.competitionId)
             .then(response => {
-                console.log("Competitions fetched: ");
+                console.log("Competition fetched: ");
                 console.log(response);
 
-                this.competitionsList = response;
+                this.competition = response;
 
-                this.setState({ state: this.state });
+                this.setState({state: this.state});
 
             }).catch(error => {
             this.setState({
@@ -32,29 +32,25 @@ class CompetitionsList extends Component {
     }
 
     componentDidMount() {
-        this.loadCompetitions();
+        this.loadCompetition();
     }
 
     render() {
 
-        console.log("render")
-
-        const competitionsList = this.competitionsList;
-
-        const fillTable = competitionsList => {
+        const fillTable = participantsList => {
 
             console.log("list")
-            console.log(competitionsList)
+            console.log(participantsList)
 
-            if (competitionsList === undefined) {
+            if (participantsList === undefined) {
                 return (
                     <div className="alert alert-info text-center" role="alert">
-                        Your competitions will appear here
+                        No participants
                     </div>
                 );
             } else {
-                const competitionsMapped = competitionsList.map(item => (
-                    <CompetitionItem key={item.competition_id} item={item}/>
+                const participantsMapped = participantsList.map(item => (
+                    <ParticipantItem key={item.user_id} item={item}/>
                 ));
 
                 return (
@@ -64,10 +60,8 @@ class CompetitionsList extends Component {
                             <tr className="row thead-light">
                                 <th className="col">ID</th>
                                 <th className="col">Name</th>
-                                <th className="col"></th>
-                                <th className="col"></th>
                             </tr>
-                            {competitionsMapped}
+                            {participantsMapped}
                             </thead>
                         </table>
                     </React.Fragment>
@@ -75,15 +69,16 @@ class CompetitionsList extends Component {
             }
         };
 
-        let tableContent = fillTable(this.competitionsList);
+        const participantsList = this.competition ? this.competition.participants : undefined;
+        let tableContent = fillTable(participantsList);
 
         return (
             <div>
-                <h2>List of competitions</h2>
+                <h2>List of participants</h2>
                 {tableContent}
             </div>
         );
     }
 }
 
-export default CompetitionsList
+export default ParticipantsList
