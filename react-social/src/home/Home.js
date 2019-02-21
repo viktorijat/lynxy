@@ -7,21 +7,9 @@ class Home extends Component {
             <div className="home-container">
                 <div className="container">
                     <div className="graf-bg-container">
-                        <div className="graf-layout">
-                            <div className="graf-circle"></div>
-                            <div className="graf-circle"></div>
-                            <div className="graf-circle"></div>
-                            <div className="graf-circle"></div>
-                            <div className="graf-circle"></div>
-                            <div className="graf-circle"></div>
-                            <div className="graf-circle"></div>
-                            <div className="graf-circle"></div>
-                            <div className="graf-circle"></div>
-                            <div className="graf-circle"></div>
-                            <div className="graf-circle"></div>
-                        </div>
+                        <img src="logo.png" width="600"/>
                     </div>
-                    <h1 className="home-title">Spring Boot React OAuth2 Social Login Demo</h1>
+                    <h1 className="home-title">Don't be fat and ugly. Be just ugly.</h1>
                 </div>
             </div>
         )
