@@ -42,37 +42,12 @@ class CompetitionItem extends Component {
 
                         <div className="card__meta">
                             <a href="#">{item.name}</a>
-                            <time>17th March</time>
+                            <time className="time">Starting: {item.startDate}</time>
+                            <time className="time">Ending: {item.endDate}</time>
                         </div>
 
                         <article className="card__article">
                             <h2><a href="#"/></h2>
-
-                            <div className="participants card__author">
-                                <p>Participants: </p>
-                                <div>
-                                    <img src="http://lorempixel.com/40/40/sports/" alt="user"/>
-                                    <div className="card__author-content">
-                                        <a href="#">John Doe</a>
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <img src="http://lorempixel.com/40/40/sports/" alt="user"/>
-                                    <div className="card__author-content">
-                                        <a href="#">John Doe</a>
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <img src="http://lorempixel.com/40/40/sports/" alt="user"/>
-                                    <div className="card__author-content">
-                                        <a href="#">John Doe</a>
-                                    </div>
-                                </div>
-                            </div>
-
-
                         </article>
                     </div>
 
@@ -80,7 +55,7 @@ class CompetitionItem extends Component {
                         <div className="card__author">
                             <img src="http://lorempixel.com/40/40/sports/" alt="user"/>
                             <div className="card__author-content">
-                                Created By <a href="#">John Doe</a>
+                                Created By <a href="#">{item.creator == null ? "No creator" : item.creator.name}</a>
                             </div>
                         </div>
                     </div>
