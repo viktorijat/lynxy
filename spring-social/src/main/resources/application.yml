@@ -17,8 +17,8 @@ spring:
         client:
           registration:
             google:
-              clientId: 989431064515-jvqh2n3mr861fel4uvqdouppcjco4n4g.apps.googleusercontent.com
-              clientSecret: rRvQCfQWeMhMnAxQF0ZGuGM1
+              clientId: 699104956217-ekm3tu6ipq5nkdk9ut6l6o78tcirt5ca.apps.googleusercontent.com
+              clientSecret: SQv8LrVJwk96LH3gtTRwgGgL
               redirectUriTemplate: "{baseUrl}/oauth2/callback/{registrationId}"
               scope:
                 - email
@@ -52,6 +52,8 @@ app:
     # redirectUri mentioned by the client in the /oauth2/authorize request.
     # We're not using cookies because they won't work well in mobile clients.
     authorizedRedirectUris:
+      - https://innovation-steps.herokuapp.com/oauth2/redirect
+      - http://innovation-steps.herokuapp.com/oauth2/redirect
       - http://localhost:3000/oauth2/redirect
       - myandroidapp://oauth2/redirect
       - myiosapp://oauth2/redirect
