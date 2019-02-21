@@ -1,4 +1,5 @@
 
 .idea
 target
-spring-social.iml
+*.iml
+*.db
