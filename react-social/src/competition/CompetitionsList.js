@@ -37,10 +37,6 @@ class CompetitionsList extends Component {
 
     render() {
 
-        console.log("render");
-
-        const competitionsList = this.competitionsList;
-
         const fillTable = competitionsList => {
 
             console.log("list");

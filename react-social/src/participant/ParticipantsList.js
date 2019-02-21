@@ -39,7 +39,7 @@ class ParticipantsList extends Component {
 
         const fillTable = participantsList => {
 
-            console.log("list");
+            console.log("participantsList");
             console.log(participantsList);
 
             if (participantsList === undefined) {
@@ -50,26 +50,76 @@ class ParticipantsList extends Component {
                 );
             } else {
                 const participantsMapped = participantsList.map(item => (
-                    <ParticipantItem key={item.user_id} item={item}/>
-                ));
+                        <ParticipantItem key={item.user_id} item={item}/>
+                    )
+                );
 
                 return (
                     <React.Fragment>
+                        <div className="wrapper">
+                            <div className="card radius shadowDepth1">
+                                <div className="card__content card__padding">
+                                    <div className="table table-striped thread-light wrapper">
+                                        <article className="card__article">
+                                            <div className="participants card__author">
+                                                <p>Participants: </p>
+                                                <h2><a href="#"/></h2>
+                                                {participantsMapped}
 
-                        <div className="table table-striped thread-light wrapper">
-                            {participantsMapped}
+                                                <div>
+                                                    <img
+                                                        src="http://lorempixel.com/output/people-q-c-40-40-9.jpg"
+                                                        alt="user"/>
+                                                    <div className="card__author-content">
+                                                        <a href="#">Misha Sorokin</a>
+                                                    </div>
+                                                </div>
+
+                                                <div>
+                                                    <img src="http://lorempixel.com/output/people-q-c-40-40-1.jpg"
+                                                         alt="user"/>
+                                                    <div className="card__author-content">
+                                                        <a href="#">Sergei Kotov</a>
+                                                    </div>
+                                                </div>
+
+                                                <div>
+                                                    <img src="http://lorempixel.com/output/people-q-c-40-40-3.jpg"
+                                                         alt="user"/>
+                                                    <div className="card__author-content">
+                                                        <a href="#">Marcin Wrzos</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </article>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </React.Fragment>
                 );
             }
         };
 
-        const participantsList = this.competition ? this.competition.participants : undefined;
+        let participantsList = undefined;
+        if (this.competition) {
+            participantsList = this.competition.participants;
+
+            var participantResults = this.competition.userSteps.reduce(function (map, obj) {
+                map[obj.walker.user_id] = obj.amount;
+                return map;
+            }, {});
+
+            participantsList.forEach(function (part, index) {
+                part.amount = participantResults[part.user_id];
+                this[index] = part;
+            }, participantsList);
+        }
+
         let tableContent = fillTable(participantsList);
 
         return (
             <div>
-                <h2>List of participants</h2>
                 {tableContent}
             </div>
         );

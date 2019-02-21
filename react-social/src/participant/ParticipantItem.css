@@ -130,7 +130,12 @@ h2 {
 .card__author-content {
     display: inline-block;
     vertical-align: middle;
-    padding-left: 10px;
+    padding: 5px;
+}
+
+.card__image-content {
+    display: inline-block;
+    vertical-align: middle;
 }
 
 .card__author img{
@@ -211,4 +216,9 @@ h2 {
 
 .time {
     padding-left: 10px;
+}
+
+#participant_image {
+    /*height: 60px;*/
+    width: 60px;
 }
