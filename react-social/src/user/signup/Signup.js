@@ -21,7 +21,7 @@ class Signup extends Component {
         return (
             <div className="signup-container">
                 <div className="signup-content">
-                    <h1 className="signup-title">Signup with SpringSocial</h1>
+                    <h1 className="signup-title">Signup with FatLynx</h1>
                     <SocialSignup />
                     <div className="or-separator">
                         <span className="or-text">OR</span>

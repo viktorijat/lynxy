@@ -35,7 +35,7 @@ class Login extends Component {
         return (
             <div className="login-container">
                 <div className="login-content">
-                    <h1 className="login-title">Login to SpringSocial</h1>
+                    <h1 className="login-title">Login to FatLynx</h1>
                     <SocialLogin />
                 </div>
             </div>
