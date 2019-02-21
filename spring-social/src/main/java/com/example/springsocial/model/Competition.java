@@ -1,15 +1,16 @@
 package com.example.springsocial.model;
 
-import java.time.ZonedDateTime;
-import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import java.time.ZonedDateTime;
+import java.util.Set;
 
 @Entity
 @Table(name = "competition", uniqueConstraints = {
@@ -25,6 +26,9 @@ public class Competition {
 
     @ManyToMany(mappedBy = "competitions")
     private Set<User> participants;
+
+    @OneToMany(mappedBy = "competition")
+    private Set<StepsInCompetition> userSteps;
 
     @ManyToOne(targetEntity = User.class)
     private User winner;
@@ -110,5 +114,13 @@ public class Competition {
 
     public void setMaxSteps(Long maxSteps) {
         this.maxSteps = maxSteps;
+    }
+
+    public Set<StepsInCompetition> getUserSteps() {
+        return userSteps;
+    }
+
+    public void setUserSteps(Set<StepsInCompetition> userSteps) {
+        this.userSteps = userSteps;
     }
 }
