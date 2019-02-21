@@ -75,15 +75,32 @@ class Competition extends Component {
             <div className="profile-container">
                 <div className="container">
                     <div className="profile-name">
-                        {this.competition ? (<h2>{this.competition.name}</h2>) : (<br/>)}
-                        <div>
-                            {
-                                alreadySubmitted ?
-                                    (<a href="#" id="submit"
-                                        onClick={(e) => this.handleSubmitClick(e, this.competition.competition_id)}>Submit</a>) :
-                                    (<strong>Your score: {currentUserScore}</strong>)
-                            }
-                        </div>
+                        {this.competition ? (
+                            <div>
+                                <h2>{this.competition.name}</h2>
+                                <div className="card__action">
+                                    <div className="card__author">
+                                        <img src="http://lorempixel.com/40/40/sports/" alt="user"/>
+                                        <div className="card__author-content">
+                                            Created By <a href="#">
+                                            {this.competition.creator == null ? "No creator" : this.competition.creator.name}</a>
+                                        </div>
+                                        <div className="card__author-content">
+                                            Winner <a href="#">
+                                            {this.competition.winner == null ? "Nobody won yet" : this.competition.winner.name + " (" + this.competition.maxSteps + ")"}</a>
+                                        </div>
+                                        <div className="card__author-content">
+                                        {
+                                            alreadySubmitted ?
+                                                (<span> | <a href="#" id="submit"
+                                                    onClick={(e) => this.handleSubmitClick(e, this.competition.competition_id)}>Submit your score</a></span>) :
+                                                (<span>Your score <a href="#">{currentUserScore}</a></span>)
+                                        }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        ) : (<br/>)}
                         <ParticipantsList competitionId={this.props.match.params.competitionId}/>
                     </div>
                 </div>

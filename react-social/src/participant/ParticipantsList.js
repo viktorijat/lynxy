@@ -56,9 +56,45 @@ class ParticipantsList extends Component {
 
                 return (
                     <React.Fragment>
+                        <div className="wrapper">
+                            <div className="card radius shadowDepth1">
+                                <div className="card__content card__padding">
+                                    <div className="table table-striped thread-light wrapper">
+                                        <article className="card__article">
+                                            <div className="participants card__author">
+                                                <p>Participants: </p>
+                                                <h2><a href="#"/></h2>
+                                                {participantsMapped}
 
-                        <div className="table table-striped thread-light wrapper">
-                            {participantsMapped}
+                                                <div>
+                                                    <img
+                                                        src="http://lorempixel.com/output/people-q-c-40-40-9.jpg"
+                                                        alt="user"/>
+                                                    <div className="card__author-content">
+                                                        <a href="#">Misha Sorokin</a>
+                                                    </div>
+                                                </div>
+
+                                                <div>
+                                                    <img src="http://lorempixel.com/output/people-q-c-40-40-1.jpg"
+                                                         alt="user"/>
+                                                    <div className="card__author-content">
+                                                        <a href="#">Sergei Kotov</a>
+                                                    </div>
+                                                </div>
+
+                                                <div>
+                                                    <img src="http://lorempixel.com/output/people-q-c-40-40-3.jpg"
+                                                         alt="user"/>
+                                                    <div className="card__author-content">
+                                                        <a href="#">Marcin Wrzos</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </article>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </React.Fragment>
                 );
@@ -69,12 +105,12 @@ class ParticipantsList extends Component {
         if (this.competition) {
             participantsList = this.competition.participants;
 
-            var participantResults = this.competition.userSteps.reduce(function(map, obj) {
+            var participantResults = this.competition.userSteps.reduce(function (map, obj) {
                 map[obj.walker.user_id] = obj.amount;
                 return map;
             }, {});
 
-            participantsList.forEach(function(part, index) {
+            participantsList.forEach(function (part, index) {
                 part.amount = participantResults[part.user_id];
                 this[index] = part;
             }, participantsList);
@@ -84,7 +120,6 @@ class ParticipantsList extends Component {
 
         return (
             <div>
-                <h2>List of participants</h2>
                 {tableContent}
             </div>
         );
