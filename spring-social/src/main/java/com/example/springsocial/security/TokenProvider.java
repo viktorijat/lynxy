@@ -1,7 +1,14 @@
 package com.example.springsocial.security;
 
 import com.example.springsocial.config.AppProperties;
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwsHeader;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -13,6 +20,7 @@ import java.util.Date;
 public class TokenProvider {
 
     private static final Logger logger = LoggerFactory.getLogger(TokenProvider.class);
+    public static final String ACCESS_TOKEN = "ACCESS_TOKEN";
 
     private AppProperties appProperties;
 
@@ -30,6 +38,7 @@ public class TokenProvider {
                 .setSubject(Long.toString(userPrincipal.getId()))
                 .setIssuedAt(new Date())
                 .setExpiration(expiryDate)
+                .setHeaderParam(ACCESS_TOKEN, userPrincipal.getAccessToken())
                 .signWith(SignatureAlgorithm.HS512, appProperties.getAuth().getTokenSecret())
                 .compact();
     }
@@ -41,6 +50,15 @@ public class TokenProvider {
                 .getBody();
 
         return Long.parseLong(claims.getSubject());
+    }
+
+    public String getAccessTokenFromToken(String token) {
+        JwsHeader header = Jwts.parser()
+                .setSigningKey(appProperties.getAuth().getTokenSecret())
+                .parseClaimsJws(token)
+                .getHeader();
+
+        return (String) header.get(ACCESS_TOKEN);
     }
 
     public boolean validateToken(String authToken) {
