@@ -1,16 +1,13 @@
 package com.example.springsocial.model;
 
-import java.time.Period;
 import java.time.ZonedDateTime;
-import java.util.List;
+import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -27,15 +24,15 @@ public class Competition {
     private String name;
 
     @ManyToMany(mappedBy = "competitions")
-    private List<User> participants;
+    private Set<User> participants;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = User.class)
     private User winner;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = User.class)
     private User creator;
 
-    private Period duration;
+    private ZonedDateTime endDate;
 
     private ZonedDateTime startDate;
 
@@ -57,11 +54,11 @@ public class Competition {
         this.name = name;
     }
 
-    public List<User> getParticipants() {
+    public Set<User> getParticipants() {
         return participants;
     }
 
-    public void setParticipants(List<User> participants) {
+    public void setParticipants(Set<User> participants) {
         this.participants = participants;
     }
 
@@ -81,12 +78,12 @@ public class Competition {
         this.creator = creator;
     }
 
-    public Period getDuration() {
-        return duration;
+    public ZonedDateTime getEndDate() {
+        return endDate;
     }
 
-    public void setDuration(Period duration) {
-        this.duration = duration;
+    public void setEndDate(ZonedDateTime endDate) {
+        this.endDate = endDate;
     }
 
     public ZonedDateTime getStartDate() {
