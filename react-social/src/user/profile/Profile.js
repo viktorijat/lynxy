@@ -33,10 +33,6 @@ class Profile extends Component {
                         <div>
                             <CompetitionsList currentUser={this.props.currentUser}/>
                         </div>
-                        <div>
-                            <h2>JWT token</h2>
-                            <p className="word-wrap">{localStorage.getItem(ACCESS_TOKEN)}</p>
-                        </div>
                     </div>
                 </div>    
             </div>

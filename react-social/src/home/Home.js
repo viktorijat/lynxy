@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './Home.css';
+import { Link, NavLink } from 'react-router-dom';
 
 class Home extends Component {
     render() {
@@ -11,6 +12,7 @@ class Home extends Component {
                     </div>
                     <h1 className="home-title">Don't be fat and ugly. Be just ugly.</h1>
                 </div>
+                <Link to="/competition/new">Create new competition</Link>
             </div>
         )
     }
