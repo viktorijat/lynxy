@@ -8,7 +8,7 @@ class Home extends Component {
             <div className="home-container">
                 <div className="container">
                     <div className="graf-bg-container">
-                        <img src="logo.png" width="600"/>
+                        <img src="/logo.png" width="600"/>
                     </div>
                     <h1 className="home-title">Don't be fat and ugly. Be just ugly.</h1>
                 </div>

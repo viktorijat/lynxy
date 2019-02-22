@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {createCompetition, hasUserJoined} from "../util/APIUtils";
+import './CreateCompetition.css';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -13,7 +14,7 @@ class CreateCompetition extends Component {
         let tomorrow = new Date();
         tomorrow.setDate(tomorrow.getDate() + 1);
         this.state = {
-             competitionName: null,
+             competitionName: "",
              startDate: today,
              endDate: tomorrow
         };
@@ -71,9 +72,12 @@ class CreateCompetition extends Component {
 
     render() {
         return (
-            <div className="profile-container">
+            <div className="home-container">
                 <div className="container">
-                    <div className="profile-name">
+                            <div className="graf-bg-container">
+                                        <img src="/logo.png" width="600"/>
+                                    </div>
+                                    <br/>
                             <form onSubmit={this.handleSubmit}>
                               <label>
                                 Competition Name:
@@ -100,7 +104,6 @@ class CreateCompetition extends Component {
                             </form>
                     </div>
                 </div>
-            </div>
         );
     }
 
